@@ -6,7 +6,6 @@
     <title>Sistem Monitoring dan Kontrol Tanaman Cerdas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ... (SEMUA GAYA CSS ANDA TETAP SAMA, TIDAK PERLU DIUBAH) ... */
         :root {
             --primary: #2e7d32;
             --primary-light: #4caf50;
@@ -19,53 +18,44 @@
             --dark: #212121;
             --gray: #757575;
         }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
         body {
             background-color: #f0f4f0;
             color: var(--dark);
             line-height: 1.6;
         }
-        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
         header {
             background-color: var(--primary);
             color: white;
             padding: 15px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
         .logo i {
             font-size: 2rem;
         }
-        
         .logo h1 {
             font-size: 1.5rem;
         }
-        
         .status-indicator {
             display: flex;
             align-items: center;
@@ -74,46 +64,38 @@
             padding: 8px 15px;
             border-radius: 20px;
         }
-        
         .status-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background-color: #4caf50;
+            background-color: #f44336; /* Default Merah (Tidak Terhubung) */
+        }
+        .status-dot.connected {
+            background-color: #4caf50; /* Hijau jika terhubung */
             animation: pulse 2s infinite;
         }
-        
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
-        
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-top: 20px;
         }
-        
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
             }
         }
-        
         .card {
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             padding: 20px;
-            transition: transform 0.3s ease;
         }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -122,202 +104,65 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        
         .card-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary-dark);
         }
-        
-        .sensor-data {
+        .sensor-data, .data-item, .data-label {
             display: flex;
+        }
+        .sensor-data {
             flex-direction: column;
             gap: 15px;
         }
-        
         .data-item {
-            display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #f5f5f5;
         }
-        
         .data-label {
-            display: flex;
             align-items: center;
             gap: 10px;
         }
-        
         .data-value {
             font-weight: 600;
             font-size: 1.1rem;
         }
-        
-        .temp-value {
-            color: var(--danger);
-        }
-        
-        .humidity-value {
-            color: var(--info);
-        }
-        
-        .soil-value {
-            color: var(--secondary);
-        }
-        
-        .status-value {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .status-normal {
-            background-color: #e8f5e9;
-            color: var(--primary);
-        }
-        
-        .status-warning {
-            background-color: #fff8e1;
-            color: var(--warning);
-        }
-        
-        .status-danger {
-            background-color: #ffebee;
-            color: var(--danger);
-        }
-        
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* Rasio 4:3 */
+            padding-bottom: 75%;
             background-color: #000;
             border-radius: 10px;
             overflow: hidden;
         }
-
         .video-container img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
+            object-fit: contain;
         }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-warning {
-            background-color: var(--warning);
-            color: var(--dark);
-        }
-        
-        .btn-warning:hover {
-            background-color: #e0a800;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #d32f2f;
-        }
-        
-        .history-chart {
-            height: 250px;
-            margin-top: 15px;
-        }
-        
-        .chart-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            color: var(--gray);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px 0;
-            color: var(--gray);
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-        
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9em;
             margin-top: 15px;
         }
-        
         table thead th {
             background-color: #f8f9fa;
-            color: #555;
-            font-weight: 600;
-            text-align: left;
             padding: 12px 15px;
             border-bottom: 2px solid #dee2e6;
         }
-        
-        table tbody tr {
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        table tbody tr:hover {
-            background-color: #f1f3f5;
-        }
-        
         table tbody td {
-            color: #495057;
             padding: 12px 15px;
         }
-        
         .view-link {
             color: #2196f3;
             text-decoration: none;
             font-weight: 600;
-        }
-
-        .view-link:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -330,8 +175,8 @@
                     <h1>Sistem Monitoring Tanaman Cerdas</h1>
                 </div>
                 <div class="status-indicator">
-                    <div class="status-dot"></div>
-                    <span>Terhubung</span>
+                    <div id="connection-status-dot" class="status-dot"></div>
+                    <span id="connection-status-text">Menghubungkan...</span>
                 </div>
             </div>
         </div>
@@ -346,32 +191,20 @@
                 </div>
                 <div class="sensor-data">
                     <div class="data-item">
-                        <div class="data-label">
-                            <i class="fas fa-thermometer-half" style="color: var(--danger);"></i>
-                            <span>Suhu Udara</span>
-                        </div>
-                        <div class="data-value temp-value" id="temperature">-- °C</div>
+                        <div class="data-label"><i class="fas fa-thermometer-half"></i><span>Suhu Udara</span></div>
+                        <div class="data-value" id="temperature">-- °C</div>
                     </div>
                     <div class="data-item">
-                        <div class="data-label">
-                            <i class="fas fa-tint" style="color: var(--info);"></i>
-                            <span>Kelembapan Udara</span>
-                        </div>
-                        <div class="data-value humidity-value" id="humidity">-- %</div>
+                        <div class="data-label"><i class="fas fa-tint"></i><span>Kelembapan Udara</span></div>
+                        <div class="data-value" id="humidity">-- %</div>
                     </div>
                     <div class="data-item">
-                        <div class="data-label">
-                            <i class="fas fa-seedling" style="color: var(--secondary);"></i>
-                            <span>Kelembapan Tanah</span>
-                        </div>
-                        <div class="data-value soil-value" id="soilMoisture">-- %</div>
+                        <div class="data-label"><i class="fas fa-seedling"></i><span>Kelembapan Tanah</span></div>
+                        <div class="data-value" id="soilMoisture">-- %</div>
                     </div>
                     <div class="data-item">
-                        <div class="data-label">
-                            <i class="fas fa-heartbeat"></i>
-                            <span>Status Tanaman</span>
-                        </div>
-                        <div class="status-value status-normal" id="plantStatus">--</div>
+                        <div class="data-label"><i class="fas fa-heartbeat"></i><span>Status Tanaman</span></div>
+                        <div class="data-value" id="plantStatus">--</div>
                     </div>
                 </div>
             </div>
@@ -379,59 +212,9 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Live View Kamera</h2>
-                    <div class="camera-status">
-                        <i class="fas fa-circle" style="color: #4caf50;"></i>
-                        <span>Aktif</span>
-                    </div>
                 </div>
                 <div class="video-container">
                     <img id="video-stream" alt="Live stream dari Raspberry Pi">
-                </div>
-                <div class="controls">
-                    <button class="btn btn-primary" id="btnIrrigate">
-                        <i class="fas fa-tint"></i>
-                        <span>Siram Sekarang</span>
-                    </button>
-                    <button class="btn btn-warning" id="btnToggleLight">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>Nyalakan Lampu</span>
-                    </button>
-                    <button class="btn btn-danger" id="btnEmergency">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Mode Darurat</span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Riwayat Suhu & Kelembapan</h2>
-                    <div class="time-range">
-                        <select id="timeRange">
-                            <option value="1h">1 Jam Terakhir</option>
-                            <option value="6h">6 Jam Terakhir</option>
-                            <option value="24h" selected>24 Jam Terakhir</option>
-                            <option value="7d">7 Hari Terakhir</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="history-chart">
-                    <div class="chart-placeholder">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Grafik akan ditampilkan di sini</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Log Aktivitas</h2>
-                    <button class="btn btn-primary" id="btnRefreshLog">
-                        <i class="fas fa-sync-alt"></i>
-                        <span>Refresh</span>
-                    </button>
-                </div>
-                <div class="log-container" id="logContainer">
                 </div>
             </div>
         </div>
@@ -454,7 +237,7 @@
                         </tr>
                     </thead>
                     <tbody id="historical-table-body">
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -466,24 +249,38 @@
         </div>
     </footer>
     
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
     <script>
-        // === PERUBAHAN DI SINI ===
+        // =======================================================
+        // --- GANTI URL INI DENGAN URL ANDA YANG SEBENARNYA ---
+        const NGROK_URL = "https://patrica-unsurrounded-overinstructively.ngr.app";
+        const REPLIT_URL = "https://server-hbm.mauritzjesaya.repl.co";
+        // =======================================================
 
-        // Ganti URL ini dengan URL NGROK HTTPS Anda yang terbaru
-        const NGROK_URL = "https://patrica-unsurrounded-overinstructively.ngr.app"; 
-        
-        // Atur sumber gambar video stream
+        // --- Atur Sumber Video Stream ---
         const videoStreamElement = document.getElementById('video-stream');
-        videoStreamElement.src = ${NGROK_URL}/video_feed;
+        if (videoStreamElement) {
+            videoStreamElement.src = ${NGROK_URL}/video_feed;
+        }
 
-        // Atur juga RASPBERRY_PI_IP untuk link foto di tabel
-        const RASPBERRY_PI_IP = new URL(NGROK_URL).host;
-        const RASPBERRY_PI_PORT = 5000; // Port Flask Anda
-        
-        // ... (Sisa JavaScript tetap sama persis) ...
-        const socket = io();
+        // --- Hubungkan ke Server Socket.IO di Replit ---
+        const socket = io(REPLIT_URL);
+        const statusDot = document.getElementById('connection-status-dot');
+        const statusText = document.getElementById('connection-status-text');
 
+        socket.on('connect', () => {
+            console.log('Terhubung ke server Socket.IO di Replit!');
+            statusDot.classList.add('connected');
+            statusText.textContent = 'Terhubung';
+        });
+
+        socket.on('disconnect', () => {
+            console.log('Koneksi ke server Socket.IO terputus.');
+            statusDot.classList.remove('connected');
+            statusText.textContent = 'Terputus';
+        });
+
+        // --- Tangani Data Sensor yang Masuk ---
         const tempElement = document.getElementById('temperature');
         const humidityElement = document.getElementById('humidity');
         const soilElement = document.getElementById('soilMoisture');
@@ -491,23 +288,21 @@
         const timestampElement = document.getElementById('timestamp');
 
         socket.on('sensorData', function(data) {
-            console.log('Data sensor baru diterima dari server:', data);
-            
-            // Perbaikan sintaks dengan backticks (`)
+            console.log('Data sensor baru diterima:', data);
             tempElement.textContent = ${data.suhu.toFixed(1)} °C;
             humidityElement.textContent = ${data.kelembaban_udara.toFixed(0)} %;
             soilElement.textContent = ${data.kelembaban_tanah.toFixed(0)} %;
             statusElement.textContent = data.status_tanaman;
             timestampElement.textContent = new Date().toLocaleTimeString('id-ID');
-
-            prependDataToTable(data);
         });
 
+        // --- Muat dan Tampilkan Data Historis ---
         const tableBody = document.querySelector('#historical-table-body');
 
         async function loadHistoricalData() {
             try {
-                const response = await fetch('/api/data/historis');
+                // Asumsi API historis ada di server Replit
+                const response = await fetch(${REPLIT_URL}/api/data/historis);
                 const data = await response.json();
                 
                 tableBody.innerHTML = '';
@@ -517,12 +312,12 @@
                     
                     let fotoHtml = '-';
                     if (row.foto) {
-                        // Perbaikan: Gunakan NGROK URL untuk foto
-                        fotoHtml = <a href="https://${RASPBERRY_PI_IP}/hasil_deteksi/${row.foto}" target="_blank" class="view-link">Lihat</a>;
+                        // Gunakan NGROK URL untuk link foto
+                        fotoHtml = <a href="${NGROK_URL}/hasil_deteksi/${row.foto}" target="_blank" class="view-link">Lihat</a>;
                     }
 
                     tr.innerHTML = `
-                        <td>${row.formatted_timestamp}</td>
+                        <td>${new Date(row.timestamp).toLocaleString('id-ID')}</td>
                         <td>${row.suhu ? row.suhu.toFixed(1) : '-'}</td>
                         <td>${row.kelembaban_tanah ? row.kelembaban_tanah.toFixed(0) : '-'}</td>
                         <td>${row.status_pompa || '-'}</td>
@@ -537,39 +332,9 @@
             }
         }
         
-        function prependDataToTable(row) {
-            const tr = document.createElement('tr');
-            tr.style.backgroundColor = '#e8f5e9';
-            
-            tr.innerHTML = `
-                <td>${new Date().toLocaleString('id-ID', { hour12: false })}</td>
-                <td>${row.suhu ? row.suhu.toFixed(1) : '-'}</td>
-                <td>${row.kelembaban_tanah ? row.kelembaban_tanah.toFixed(0) : '-'}</td>
-                <td>${row.status_pompa || '-'}</td>
-                <td>${row.umur !== null ? row.umur : '-'}</td>
-                <td>${row.status_pemupukan || '-'}</td>
-                <td>-</td>
-            `;
-            tableBody.prepend(tr);
-
-            setTimeout(() => {
-                tr.style.backgroundColor = '';
-            }, 3000);
-
-            if (tableBody.rows.length > 100) {
-                tableBody.deleteRow(-1);
-            }
-        }
-
+        // Muat data saat halaman pertama kali dibuka
         document.addEventListener('DOMContentLoaded', loadHistoricalData);
 
-        document.getElementById('btnIrrigate').addEventListener('click', () => console.log('Tombol Siram diklik'));
-        document.getElementById('btnToggleLight').addEventListener('click', () => console.log('Tombol Lampu diklik'));
-        document.getElementById('btnEmergency').addEventListener('click', () => console.log('Tombol Darurat diklik'));
-        document.getElementById('btnRefreshLog').addEventListener('click', () => {
-            console.log('Tombol Refresh Log diklik');
-            loadHistoricalData();
-        });
     </script>
 </body>
 </html>
