@@ -6,6 +6,7 @@
     <title>Sistem Monitoring dan Kontrol Tanaman Cerdas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ... (SEMUA GAYA CSS ANDA TETAP SAMA, TIDAK PERLU DIUBAH) ... */
         :root {
             --primary: #2e7d32;
             --primary-light: #4caf50;
@@ -187,26 +188,24 @@
             color: var(--danger);
         }
         
-        /* === PERUBAHAN DI SINI === */
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* Rasio 4:3. Jika 16:9, ganti dengan 56.25% */
+            padding-bottom: 75%; /* Rasio 4:3 */
             background-color: #000;
             border-radius: 10px;
             overflow: hidden;
         }
 
-        .video-container img { /* CSS baru untuk gambar di dalam video-container */
+        .video-container img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Gunakan cover di sini */
-            border-radius: 10px; /* Jaga border-radius */
+            object-fit: cover;
+            border-radius: 10px;
         }
-        /* === AKHIR PERUBAHAN === */
         
         .controls {
             display: flex;
@@ -386,8 +385,7 @@
                     </div>
                 </div>
                 <div class="video-container">
-                    <img src="http://192.168.100.33:5000/video_feed" 
-                         alt="Live stream dari Raspberry Pi">
+                    <img id="video-stream" alt="Live stream dari Raspberry Pi">
                 </div>
                 <div class="controls">
                     <button class="btn btn-primary" id="btnIrrigate">
@@ -434,7 +432,7 @@
                     </button>
                 </div>
                 <div class="log-container" id="logContainer">
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -456,7 +454,7 @@
                         </tr>
                     </thead>
                     <tbody id="historical-table-body">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -470,8 +468,19 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const videoUrl = 'https://patrica-unsurrounded-overinstructively.ngr';
+        // === PERUBAHAN DI SINI ===
 
+        // Ganti URL ini dengan URL NGROK HTTPS Anda yang terbaru
+        const NGROK_URL = "https://patrica-unsurrounded-overinstructively.ngr.app"; 
+        
+        // Atur sumber gambar video stream
+        const videoStreamElement = document.getElementById('video-stream');
+        videoStreamElement.src = ${NGROK_URL}/video_feed;
+
+        // Atur juga RASPBERRY_PI_IP untuk link foto di tabel
+        const RASPBERRY_PI_IP = new URL(NGROK_URL).host;
+        const RASPBERRY_PI_PORT = 5000; // Port Flask Anda
+        
         // ... (Sisa JavaScript tetap sama persis) ...
         const socket = io();
 
@@ -484,9 +493,10 @@
         socket.on('sensorData', function(data) {
             console.log('Data sensor baru diterima dari server:', data);
             
-            tempElement.textContent = `${data.suhu.toFixed(1)} °C`;
-            humidityElement.textContent = `${data.kelembaban_udara.toFixed(0)} %`;
-            soilElement.textContent = `${data.kelembaban_tanah.toFixed(0)} %`;
+            // Perbaikan sintaks dengan backticks (`)
+            tempElement.textContent = ${data.suhu.toFixed(1)} °C;
+            humidityElement.textContent = ${data.kelembaban_udara.toFixed(0)} %;
+            soilElement.textContent = ${data.kelembaban_tanah.toFixed(0)} %;
             statusElement.textContent = data.status_tanaman;
             timestampElement.textContent = new Date().toLocaleTimeString('id-ID');
 
@@ -507,7 +517,8 @@
                     
                     let fotoHtml = '-';
                     if (row.foto) {
-                        fotoHtml = `<a href="http://${RASPBERRY_PI_IP}:5000/hasil_deteksi/${row.foto}" target="_blank" class="view-link">Lihat</a>`;
+                        // Perbaikan: Gunakan NGROK URL untuk foto
+                        fotoHtml = <a href="https://${RASPBERRY_PI_IP}/hasil_deteksi/${row.foto}" target="_blank" class="view-link">Lihat</a>;
                     }
 
                     tr.innerHTML = `
